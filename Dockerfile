@@ -9,5 +9,5 @@ RUN gradle build -x test
 # Imagen ligera para producción (también con JDK 21)
 FROM eclipse-temurin:21-jdk
 EXPOSE 8080
-COPY --from=build /home/gradle/project/build/libs/*.jar app.jar
+COPY --from=build /home/gradle/project/build/libs/demo-java-spring-api-1.0.0.jar app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
