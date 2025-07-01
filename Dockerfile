@@ -1,12 +1,10 @@
-# Usa una imagen con JDK 21 para compilar el proyecto
+# Etapa de construcción
 FROM gradle:8.5-jdk21 AS build
 COPY --chown=gradle:gradle . /home/gradle/project
 WORKDIR /home/gradle/project
-
-# Construye el proyecto sin tests
 RUN gradle build -x test
 
-# Imagen ligera para producción (también con JDK 21)
+# Etapa de producción
 FROM eclipse-temurin:21-jdk
 EXPOSE 8080
 COPY --from=build /home/gradle/project/build/libs/demo-java-spring-api-1.0.0.jar app.jar
