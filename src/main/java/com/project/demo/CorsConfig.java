@@ -17,7 +17,8 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "https://thymia-frontend.vercel.app"
+                "https://thymia-frontend.vercel.app",
+                "https://www.thymia.site"
         ));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
