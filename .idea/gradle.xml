@@ -5,9 +5,10 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="21" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/../../../../../Año 2025/Segundo Cuatrimestre/Proyecto de Ingeniería del Software 3/Proyecto Final/thymia-backend" />
           </set>
         </option>
       </GradleProjectSettings>
