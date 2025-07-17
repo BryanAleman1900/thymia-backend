@@ -1,4 +1,3 @@
-
 package com.project.demo.logic.entity.appointment;
 
 import com.project.demo.logic.entity.user.User;
