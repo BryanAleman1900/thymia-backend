@@ -28,7 +28,25 @@ public class Appointment {
     private LocalDateTime end;
 
     @Column(nullable = false)
-    private String status; // pendiente, confirmada, cancelada
+    private String status;
+
+    @Column(name = "video_call_url")
+    private String videoCallUrl;
+
+    public String getVideoCallUrl() {
+        return videoCallUrl;
+    }
+
+    public void setVideoCallUrl(String videoCallUrl) {
+        this.videoCallUrl = videoCallUrl;
+    }
+
+    @Column(name = "meet_url")
+    private String meetUrl;
+
+    public String getMeetUrl() { return meetUrl; }
+    public void setMeetUrl(String meetUrl) { this.meetUrl = meetUrl; }
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

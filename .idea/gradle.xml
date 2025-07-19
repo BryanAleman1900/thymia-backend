@@ -8,7 +8,7 @@
         <option name="gradleJvm" value="21" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../../../../../Año 2025/Segundo Cuatrimestre/Proyecto de Ingeniería del Software 3/Proyecto Final/thymia-backend" />
+            <option value="$PROJECT_DIR$" />
           </set>
         </option>
       </GradleProjectSettings>

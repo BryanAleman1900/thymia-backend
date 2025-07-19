@@ -85,7 +85,15 @@ public class AppointmentService {
                             new EventAttendee().setEmail(cita.getProfessional().getEmail())
                     ));
 
-            calendarService.createEvent("primary", event);
+
+            Event createdEvent = calendarService.createEvent("primary", event);
+
+
+            String meetLink = createdEvent.getHangoutLink();
+            if (meetLink != null) {
+                cita.setMeetUrl(meetLink);
+                repository.save(cita); // Guardar el enlace en la base de datos
+            }
 
         } catch (Exception e) {
             System.err.println("Error al sincronizar con Google Calendar: " + e.getMessage());
