@@ -5,7 +5,6 @@ import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.FaceIOLoginRequest;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
-import com.project.demo.logic.service.AzureFaceService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,9 +28,6 @@ public class UserRestController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AzureFaceService azureFaceService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")

@@ -12,7 +12,6 @@ import com.project.demo.logic.entity.user.FaceIOLoginRequest;
 import com.project.demo.logic.entity.user.LoginResponse;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
-import com.project.demo.logic.service.AzureFaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,10 +39,6 @@ public class AuthRestController {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private AzureFaceService azureFaceService;
-
 
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
