@@ -33,6 +33,9 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Column(name = "face_id_value", length = 100)
+    private String faceIdValue;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
@@ -138,4 +141,13 @@ public class User implements UserDetails {
 
         return this;
     }
+
+    public String getFaceIdValue() {
+        return faceIdValue;
+    }
+
+    public void setFaceIdValue(String faceIdValue) {
+        this.faceIdValue = faceIdValue;
+    }
+
 }
