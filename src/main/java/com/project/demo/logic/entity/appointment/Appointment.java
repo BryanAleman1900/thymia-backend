@@ -17,7 +17,7 @@ public class Appointment {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String description;
-    private String googleEventId;  // ID del evento en Google Calendar
+    private String googleEventId;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")

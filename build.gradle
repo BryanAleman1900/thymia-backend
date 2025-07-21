@@ -29,7 +29,11 @@ dependencies {
 
 	// Google Calendar API
 	implementation 'com.google.api-client:google-api-client:2.0.0'
+	implementation 'com.google.api-client:google-api-client-gson:2.0.0'
 	implementation 'com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0'
+	// Dependencia de Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 }
 
