@@ -56,7 +56,6 @@ public class AppointmentRestController {
                 JSON_FACTORY,
                 (HttpRequest request) -> {
                     request.getHeaders().setAuthorization("Bearer " + accessToken);
-                    return request;
                 }
         )
                 .setApplicationName("Thymia")
