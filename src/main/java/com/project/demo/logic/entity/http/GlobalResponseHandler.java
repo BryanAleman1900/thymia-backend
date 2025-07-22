@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class GlobalResponseHandler {
+
     @ResponseBody
     public <T> ResponseEntity<?> handleResponse(String message, T body, HttpStatus status, HttpServletRequest request) {
         Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
@@ -20,14 +21,14 @@ public class GlobalResponseHandler {
             return new ResponseEntity<>(response, status);
         }
         HttpResponse<T> response = new HttpResponse<>(message, body, meta);
-        return  new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, status);
     }
 
     @ResponseBody
     public <T> ResponseEntity<?> handleResponse(String message, HttpStatus status, HttpServletRequest request) {
         Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
         HttpResponse<?> response = new HttpResponse<>(message, meta);
-        return  new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, status);
     }
 
     @ResponseBody
@@ -38,9 +39,10 @@ public class GlobalResponseHandler {
             return new ResponseEntity<>(response, status);
         }
         HttpResponse<T> response = new HttpResponse<>(message, body, meta);
-        return  new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, status);
     }
 
+    // ✅ Integrado desde Carlos
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleException(Exception e) {
         if (e instanceof ResponseStatusException) {

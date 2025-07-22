@@ -7,11 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
 
 @Table(name = "user")
 @Entity
@@ -19,16 +18,12 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String lastname;
+
     @Column(unique = true, length = 100, nullable = false)
     private String email;
-
-    @Column(name = "intentosFallidos")
-    private Integer intentosFallidos = 0;
-
-    @Column(name = "fechaBloqueo")
-    private LocalDateTime fechaBloqueo;
 
     @Column(nullable = false)
     private String password;
@@ -41,125 +36,72 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    private Role role;
+
+    // ✅ Face ID (Bryan)
+    @Column(name = "face_id_value", length = 100)
+    private String faceIdValue;
+
+    // ✅ Seguridad (Carlos)
+    @Column(name = "intentosFallidos")
+    private Integer intentosFallidos = 0;
+
+    @Column(name = "fechaBloqueo")
+    private LocalDateTime fechaBloqueo;
+
+    public User() {}
+
+    // 🔐 Spring Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
         return List.of(authority);
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
-    private Role role;
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
+    @Override public String getUsername() { return email; }
 
-    // Constructors
-    public User() {}
+    // 🔧 Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public String getLastname() { return lastname; }
+    public void setLastname(String lastname) { this.lastname = lastname; }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    @Override public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+    public Date getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public Integer getIntentosFallidos() {
-        return intentosFallidos;
-    }
-
-    public void setIntentosFallidos(Integer intentosFallidos) {
-        this.intentosFallidos = intentosFallidos;
-    }
-
-    public LocalDateTime getFechaBloqueo() {
-        return fechaBloqueo;
-    }
-
-    public void setFechaBloqueo(LocalDateTime fechaBloqueo) {
-        this.fechaBloqueo = fechaBloqueo;
-    }
-
+    public Role getRole() { return role; }
     public User setRole(Role role) {
         this.role = role;
-
         return this;
     }
+
+    // ✅ Face ID
+    public String getFaceIdValue() { return faceIdValue; }
+    public void setFaceIdValue(String faceIdValue) { this.faceIdValue = faceIdValue; }
+
+    // ✅ Seguridad
+    public Integer getIntentosFallidos() { return intentosFallidos; }
+    public void setIntentosFallidos(Integer intentosFallidos) { this.intentosFallidos = intentosFallidos; }
+
+    public LocalDateTime getFechaBloqueo() { return fechaBloqueo; }
+    public void setFechaBloqueo(LocalDateTime fechaBloqueo) { this.fechaBloqueo = fechaBloqueo; }
 }
