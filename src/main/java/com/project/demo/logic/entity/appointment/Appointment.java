@@ -3,7 +3,6 @@ package com.project.demo.logic.entity.appointment;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +10,6 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "appointments")
-@EqualsAndHashCode(of = {"id"})
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +27,6 @@ public class Appointment {
     @Column(length = 500)
     private String description;
 
-    @Column(name = "google_event_id")
-    private String googleEventId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private User patient;
@@ -48,15 +43,7 @@ public class Appointment {
     )
     private Set<User> guests = new HashSet<>();
 
-
-//    public void addGuest(User guest) {
-//        this.guests.add(guest);
-//        guest.getAppointmentsAsGuest().add(this);
-//    }
-//
-//
-//    public void removeGuest(User guest) {
-//        this.guests.remove(guest);
-//        guest.getAppointmentsAsGuest().remove(this);
-//    }
+    public void addGuest(User guest) {
+        this.guests.add(guest);
+    }
 }

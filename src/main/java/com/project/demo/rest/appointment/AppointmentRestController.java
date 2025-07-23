@@ -1,16 +1,16 @@
 package com.project.demo.rest.appointment;
 
 import com.project.demo.logic.entity.appointment.Appointment;
-import com.project.demo.logic.entity.appointment.AppointmentRepository;
 import com.project.demo.logic.entity.user.User;
+import com.project.demo.logic.entity.appointment.AppointmentRepository;
 import com.project.demo.logic.entity.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,82 +19,75 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/appointments")
 public class AppointmentRestController {
 
-    private final AppointmentRepository appointmentRepo;
-    private final UserRepository userRepo;
+    @Autowired
+    private AppointmentRepository appointmentRepo;
 
     @Autowired
-    public AppointmentRestController(AppointmentRepository appointmentRepo, UserRepository userRepo) {
-        this.appointmentRepo = appointmentRepo;
-        this.userRepo = userRepo;
-    }
+    private UserRepository userRepo;
 
-    @GetMapping
-    @PreAuthorize("isAuthenticated()")
-    public List<Appointment> getCalendarAppointments(
-            @RequestParam LocalDateTime start,
-            @RequestParam LocalDateTime end) {
-        return appointmentRepo.findByDateRange(start, end);
-    }
-
+    // Crear cita básica
     @PostMapping
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<Appointment> createAppointmentWithGuests(
-            @RequestBody CreateAppointmentRequest request) {
-
-        User doctor = userRepo.findById(request.doctorId())
-                .orElseThrow(() -> new IllegalArgumentException("Doctor no encontrado"));
-
-        User patient = userRepo.findById(request.patientId())
-                .orElseThrow(() -> new IllegalArgumentException("Paciente no encontrado"));
-
-        Set<User> guests = new HashSet<>(userRepo.findAllById(request.guestIds()));
+    public ResponseEntity<Appointment> createAppointment(
+            @RequestParam String title,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
+            @RequestParam(required = false) String description,
+            @RequestParam Long patientId,
+            @RequestParam Set<Long> guestIds,
+            @AuthenticationPrincipal User doctor) {
 
         Appointment appointment = new Appointment();
-        appointment.setTitle(request.title());
-        appointment.setStartTime(request.startTime());
-        appointment.setEndTime(request.endTime());
-        appointment.setDescription(request.description());
+        appointment.setTitle(title);
+        appointment.setStartTime(startTime);
+        appointment.setEndTime(endTime);
+        appointment.setDescription(description);
         appointment.setDoctor(doctor);
-        appointment.setPatient(patient);
+        appointment.setPatient(userRepo.findById(patientId).orElseThrow());
+
+        Set<User> guests = userRepo.findAllById(guestIds);
         appointment.setGuests(guests);
 
         return ResponseEntity.ok(appointmentRepo.save(appointment));
     }
 
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
+    // Actualizar cita
+    @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(
             @PathVariable Long id,
-            @RequestBody UpdateAppointmentRequest request) {
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
+            @RequestParam(required = false) String description) {
 
-        Appointment appointment = appointmentRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cita no encontrada"));
+        Appointment appointment = appointmentRepo.findById(id).orElseThrow();
 
-        if (request.title() != null) appointment.setTitle(request.title());
-        if (request.startTime() != null) appointment.setStartTime(request.startTime());
-        if (request.endTime() != null) appointment.setEndTime(request.endTime());
-        if (request.description() != null) appointment.setDescription(request.description());
-        if (request.guestIds() != null) {appointment.setGuests(new HashSet<>(userRepo.findAllById(request.guestIds())));
-        }
+        if (title != null) appointment.setTitle(title);
+        if (startTime != null) appointment.setStartTime(startTime);
+        if (endTime != null) appointment.setEndTime(endTime);
+        if (description != null) appointment.setDescription(description);
 
         return ResponseEntity.ok(appointmentRepo.save(appointment));
     }
 
-    public record CreateAppointmentRequest(
-            String title,
-            LocalDateTime startTime,
-            LocalDateTime endTime,
-            String description,
-            Long doctorId,
-            Long patientId,
-            Set<Long> guestIds
-    ) {}
+    // Eliminar cita
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long id) {
+        appointmentRepo.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
-    public record UpdateAppointmentRequest(
-            String title,
-            LocalDateTime startTime,
-            LocalDateTime endTime,
-            String description,
-            Set<Long> guestIds
-    ) {}
+    // Obtener citas entre fechas
+    @GetMapping
+    public ResponseEntity<List<Appointment>> getAppointments(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+
+        return ResponseEntity.ok(appointmentRepo.findByStartTimeBetween(start, end));
+    }
+    //Obteer citas por invitados
+    @GetMapping("/by-guests")
+    public ResponseEntity<List<Appointment>> getAppointmentsByGuests(
+            @RequestParam Set<Long> userIds) {
+        return ResponseEntity.ok(appointmentRepo.findAllByGuestIds(userIds));
+    }
 }
