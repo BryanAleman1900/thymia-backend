@@ -32,7 +32,7 @@ public class Appointment {
     private User patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "professional_id", nullable = false)
     private User doctor;
 
     @ManyToMany

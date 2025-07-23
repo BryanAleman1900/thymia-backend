@@ -1,5 +1,6 @@
 package com.project.demo.rest.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
