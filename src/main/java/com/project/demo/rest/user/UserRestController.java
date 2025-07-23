@@ -104,7 +104,7 @@ public class UserRestController {
         userRepository.save(currentUser);
 
         return new GlobalResponseHandler().handleResponse(
-                "Face ID registrado correctamente ✅",
+                "Face ID registrado correctamente.",
                 currentUser,
                 HttpStatus.OK,
                 httpRequest

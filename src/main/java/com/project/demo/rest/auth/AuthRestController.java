@@ -40,10 +40,8 @@ public class AuthRestController {
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
 
-    // ✅ De Carlos
     private final GlobalResponseHandler responseHandler;
 
-    // ✅ Constructor unificado
     public AuthRestController(JwtService jwtService, AuthenticationService authenticationService, GlobalResponseHandler responseHandler) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
@@ -85,7 +83,6 @@ public class AuthRestController {
         return ResponseEntity.ok(savedUser);
     }
 
-    // ✅ De Bryan: Login con Google
     @PostMapping("/google")
     public ResponseEntity<?> loginWithGoogle(@RequestBody GoogleTokenRequest googleTokenRequest) {
         String idToken = googleTokenRequest.getIdToken();
@@ -131,7 +128,6 @@ public class AuthRestController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    // ✅ De Bryan: Login con Face ID
     @PostMapping("/face-id/login")
     public ResponseEntity<?> loginWithFaceIO(@RequestBody FaceIOLoginRequest request) {
         Optional<User> userOpt = userRepository.findByFaceIdValue(request.getFacialId());
@@ -151,7 +147,6 @@ public class AuthRestController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado con ese facialId");
     }
 
-    // ✅ De Carlos: Verificar si usuario está bloqueado
     @GetMapping("/status")
     public ResponseEntity<?> verificarBloqueo(@RequestParam String email, HttpServletRequest request) {
         User user = userRepository.findByEmail(email).orElse(null);

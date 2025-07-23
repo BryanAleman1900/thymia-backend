@@ -39,11 +39,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    // ✅ Face ID (Bryan)
     @Column(name = "face_id_value", length = 100)
     private String faceIdValue;
 
-    // ✅ Seguridad (Carlos)
     @Column(name = "intentosFallidos")
     private Integer intentosFallidos = 0;
 
@@ -68,7 +66,6 @@ public class User implements UserDetails {
     @Override public boolean isEnabled() { return true; }
     @Override public String getUsername() { return email; }
 
-    // 🔧 Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -96,11 +93,9 @@ public class User implements UserDetails {
         return this;
     }
 
-    // ✅ Face ID
     public String getFaceIdValue() { return faceIdValue; }
     public void setFaceIdValue(String faceIdValue) { this.faceIdValue = faceIdValue; }
 
-    // ✅ Seguridad
     public Integer getIntentosFallidos() { return intentosFallidos; }
     public void setIntentosFallidos(Integer intentosFallidos) { this.intentosFallidos = intentosFallidos; }
 
