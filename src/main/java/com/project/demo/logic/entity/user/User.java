@@ -1,4 +1,5 @@
 package com.project.demo.logic.entity.user;
+import com.project.demo.logic.entity.appointment.Appointment;
 import com.project.demo.logic.entity.rol.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,9 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDateTime;
 
 @Table(name = "user")
@@ -50,6 +49,9 @@ public class User implements UserDetails {
 
     @Column(name = "fechaBloqueo")
     private LocalDateTime fechaBloqueo;
+
+    @ManyToMany(mappedBy = "guests")
+    private Set<Appointment> appointmentsAsGuest = new HashSet<>();
 
     public User() {}
 
