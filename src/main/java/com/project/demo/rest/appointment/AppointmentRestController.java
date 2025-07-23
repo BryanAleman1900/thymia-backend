@@ -25,7 +25,7 @@ public class AppointmentRestController {
     @Autowired
     private UserRepository userRepo;
 
-    // Crear cita básica
+
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(
             @RequestParam String title,
