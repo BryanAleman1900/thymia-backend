@@ -1,4 +1,6 @@
 package com.project.demo.logic.entity.user;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.demo.logic.entity.appointment.Appointment;
 import com.project.demo.logic.entity.rol.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -7,13 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDateTime;
 
 @Table(name = "user")
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +41,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    // ✅ Face ID (Bryan)
     @Column(name = "face_id_value", length = 100)
     private String faceIdValue;
 
-    // ✅ Seguridad (Carlos)
     @Column(name = "intentosFallidos")
     private Integer intentosFallidos = 0;
 
@@ -53,7 +52,6 @@ public class User implements UserDetails {
 
     public User() {}
 
-    // 🔐 Spring Security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
@@ -66,7 +64,6 @@ public class User implements UserDetails {
     @Override public boolean isEnabled() { return true; }
     @Override public String getUsername() { return email; }
 
-    // 🔧 Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -94,11 +91,9 @@ public class User implements UserDetails {
         return this;
     }
 
-    // ✅ Face ID
     public String getFaceIdValue() { return faceIdValue; }
     public void setFaceIdValue(String faceIdValue) { this.faceIdValue = faceIdValue; }
 
-    // ✅ Seguridad
     public Integer getIntentosFallidos() { return intentosFallidos; }
     public void setIntentosFallidos(Integer intentosFallidos) { this.intentosFallidos = intentosFallidos; }
 
