@@ -32,11 +32,15 @@ public class Appointment {
     private User patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "professional_id", nullable = false)
     private User doctor;
 
     @ManyToMany
-    @JoinTable(name = "appointment_guests", joinColumns = @JoinColumn(name = "appointment_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(
+            name = "appointment_guests",
+            joinColumns = @JoinColumn(name = "appointment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private Set<User> guests = new HashSet<>();
 
     public void addGuest(User guest) {
