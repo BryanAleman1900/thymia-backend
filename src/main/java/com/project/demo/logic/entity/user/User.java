@@ -99,4 +99,10 @@ public class User implements UserDetails {
 
     public LocalDateTime getFechaBloqueo() { return fechaBloqueo; }
     public void setFechaBloqueo(LocalDateTime fechaBloqueo) { this.fechaBloqueo = fechaBloqueo; }
+<<<<<<< HEAD
 }
+=======
+}
+
+//Modificiacion aleman
+>>>>>>> 8c5fcb8d04d3a0af8c6219b12363fc954a0ec9c1
