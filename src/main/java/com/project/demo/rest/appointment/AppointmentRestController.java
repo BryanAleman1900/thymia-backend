@@ -52,11 +52,13 @@ public class AppointmentRestController {
         appointment.setStartTime(startTime);
         appointment.setEndTime(endTime);
         appointment.setDescription(description);
+        //Luis
         if (doctor == null) {
             // ⚠️ Solo para pruebas sin autenticación - eliminar cuando JWT esté implementado
             doctor = userRepo.findById(1L)
                     .orElseThrow(() -> new IllegalStateException("Doctor de prueba no encontrado"));
         }
+        //hasta aqui
         appointment.setDoctor(doctor);
         appointment.setPatient(userRepo.findById(patientId).orElseThrow());
 
