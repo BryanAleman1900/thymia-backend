@@ -6,6 +6,7 @@ import com.project.demo.logic.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class JournalEntryController {
     private final JournalEntryService service;
 
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createEntry(@RequestBody JournalRequest request,
                                          @AuthenticationPrincipal User user) {
         if (user == null) {
@@ -34,6 +36,7 @@ public class JournalEntryController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getMyEntries(@AuthenticationPrincipal User user) {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no autenticado.");
