@@ -3,6 +3,7 @@ package com.project.demo.rest.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
+import com.project.demo.logic.entity.user.FaceIOLoginRequest;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,15 +38,15 @@ public class UserRestController {
             HttpServletRequest request) {
 
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<User> usersPage = userRepository.findAll(pageable);
+        Page<User> ordersPage = userRepository.findAll(pageable);
         Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
-        meta.setTotalPages(usersPage.getTotalPages());
-        meta.setTotalElements(usersPage.getTotalElements());
-        meta.setPageNumber(usersPage.getNumber() + 1);
-        meta.setPageSize(usersPage.getSize());
+        meta.setTotalPages(ordersPage.getTotalPages());
+        meta.setTotalElements(ordersPage.getTotalElements());
+        meta.setPageNumber(ordersPage.getNumber() + 1);
+        meta.setPageSize(ordersPage.getSize());
 
         return new GlobalResponseHandler().handleResponse("Users retrieved successfully",
-                usersPage.getContent(), HttpStatus.OK, meta);
+                ordersPage.getContent(), HttpStatus.OK, meta);
     }
 
     @PostMapping
@@ -94,4 +95,20 @@ public class UserRestController {
         return (User) authentication.getPrincipal();
     }
 
+    @PostMapping("/me/face-id/register")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> registerFaceID(@RequestBody FaceIOLoginRequest request, HttpServletRequest httpRequest) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) auth.getPrincipal();
+
+        currentUser.setFaceIdValue(request.getFacialId());
+        userRepository.save(currentUser);
+
+        return new GlobalResponseHandler().handleResponse(
+                "Face ID registrado",
+                currentUser,
+                HttpStatus.OK,
+                httpRequest
+        );
+    }
 }
