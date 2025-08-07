@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1ce77ee-09b8-497e-9f11-770bfce16c95" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/http/GlobalResponseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/http/GlobalResponseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/http/HttpResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/http/HttpResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/appointment/AppointmentRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/appointment/AppointmentRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/auth/AuthRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/auth/AuthRestController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
