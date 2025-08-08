@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -55,6 +56,22 @@ public class JournalEntryController {
         public void setContent(String content) {
             this.content = content;
         }
+    }
+
+    //Compartir Diario con Profecional JournalEntryController
+    @PutMapping("/{id}/share")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Void> shareEntry(@PathVariable Long id,
+                                           @AuthenticationPrincipal User user) {
+        service.shareEntryWithProfessional(id, user);
+        return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/shared")
+    @PreAuthorize("isAuthenticated()")
+    public List<JournalEntry> getSharedWithProfessional(@AuthenticationPrincipal User user) {
+        return service.getSharedWithProfessional(user);
     }
 }
 

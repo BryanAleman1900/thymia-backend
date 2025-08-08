@@ -12,6 +12,7 @@ import java.util.List;
 public class JournalEntryService {
 
     private final JournalEntryRepository repo;
+    private final JournalEntryRepository journalRepository;
 
     public JournalEntry create(String content, User user) {
         if (content == null || content.trim().isEmpty()) {
@@ -29,5 +30,16 @@ public class JournalEntryService {
 
     public List<JournalEntry> getAllForUser(User user) {
         return repo.findByUserOrderByCreatedAtDesc(user);
+    }
+
+    public void shareEntryWithProfessional(Long id, User user) {
+        var entry = journalRepository.findByIdAndUser(id, user)
+                .orElseThrow(() -> new IllegalArgumentException("Entry not found or not owned by user"));
+        entry.setSharedWithProfessional(true);
+        journalRepository.save(entry);
+    }
+
+    public List<JournalEntry> getSharedWithProfessional(User professional) {
+        return journalRepository.findByUserAssignedAndSharedWithProfessionalTrue(professional);
     }
 }

@@ -23,5 +23,11 @@ public class JournalEntry {
     private User user;
 
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    private User userAssigned;
+
+    @Column(nullable = false)
+    private boolean sharedWithProfessional;
 }
 

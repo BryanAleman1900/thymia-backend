@@ -27,19 +27,6 @@ public class Appointment {
     @Column(length = 500)
     private String description;
 
-    // Luis Agrego de aqui
-    @Column(name = "meeting_url")
-    private String meetingUrl;
-
-    @Column(name = "meeting_token", length = 128)
-    private String meetingToken;
-
-    @Column(name = "meeting_expires_at")
-    private LocalDateTime meetingExpiresAt;
-
-    @Column(name = "is_private")
-    private Boolean isPrivate = true; // Hasta  aqui XD
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private User patient;

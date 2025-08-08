@@ -12,8 +12,28 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/entity/appointment/Appointment.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/entity/appointment/Appointment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/entity/appointment/AppointmentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/entity/journal/JournalEntryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/entity/journal/JournalEntryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/meeting/MeetingLinkService$MeetingData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/logic/meeting/MeetingLinkService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/admin/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/admin/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/appointment/AppointmentRestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/appointment/AppointmentRestController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/journal/JournalEntryController$JournalRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/journal/JournalEntryController$JournalRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/journal/JournalEntryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/project/demo/rest/journal/JournalEntryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/JournalEntryController$JournalRequest.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/JournalEntryController.class.uniqueId1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/journal/JournalEntryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/appointment/AppointmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/journal/JournalEntryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/journal/JournalEntryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/journal/JournalEntryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/journal/JournalEntryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/user/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/meeting/MeetingLinkService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/admin/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/admin/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/appointment/AppointmentRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/appointment/AppointmentRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/journal/JournalEntryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/journal/JournalEntryController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +85,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.DemoApplication.executor": "Run",
     "git-widget-placeholder": "luis",
@@ -135,7 +156,9 @@
       <workItem from="1754355203317" duration="6826000" />
       <workItem from="1754419350013" duration="2129000" />
       <workItem from="1754446744805" duration="765000" />
-      <workItem from="1754527687669" duration="392000" />
+      <workItem from="1754527687669" duration="9471000" />
+      <workItem from="1754589710446" duration="2015000" />
+      <workItem from="1754603353772" duration="6339000" />
     </task>
     <servers />
   </component>
