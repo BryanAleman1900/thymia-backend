@@ -19,8 +19,11 @@ public interface UserRepository extends JpaRepository<User, Long>  {
 
     Optional<User> findByEmail(String email);
 
+    Optional<User> findByFaceIdValue(String faceIdValue);
+
     @Query("SELECT u FROM User u WHERE u.id IN :ids")
     Set<User> findAllById(@Param("ids") Set<Long> ids);
 
+    Set<User> findByIdIn(Set<Long> ids);
 
 }

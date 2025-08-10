@@ -1,10 +1,6 @@
 package com.project.demo.logic.entity.http;
 
 
-
-import java.util.Collection;
-import java.util.List;
-
 public class HttpResponse<T> {
     private  String message;
     private T data;

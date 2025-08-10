@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1ce77ee-09b8-497e-9f11-770bfce16c95" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/LoginAuditService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/Audit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/Audit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/AuditRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/AuditRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/audit/AuditRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/audit/AuditRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/emotion/EmotionDetectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/emotion/EmotionDetectionController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,6 +177,7 @@
       <workItem from="1753925041081" duration="3737000" />
       <workItem from="1754532231155" duration="5754000" />
       <workItem from="1754599448885" duration="2695000" />
+      <workItem from="1754802604892" duration="1390000" />
     </task>
     <servers />
   </component>
