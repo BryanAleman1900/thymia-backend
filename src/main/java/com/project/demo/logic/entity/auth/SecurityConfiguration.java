@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.auth;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,11 @@ public class SecurityConfiguration {
     ) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
+//Mauro
+    @Bean
+    public ApplicationEventPublisher applicationEventPublisher() {
+        return new SimpleApplicationEventPublisher();
     }
 
     @Bean

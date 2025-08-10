@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1ce77ee-09b8-497e-9f11-770bfce16c95" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/LoginAuditService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/Audit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/Audit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/AuditRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/audit/AuditRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/logic/entity/auth/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/audit/AuditRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/demo/rest/audit/AuditRestController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +112,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.project.demo.logic.entity.auth" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.DemoApplication">
     <configuration name="thymia-backend [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
