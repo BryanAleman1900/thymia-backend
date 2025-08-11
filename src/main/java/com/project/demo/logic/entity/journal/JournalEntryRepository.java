@@ -9,6 +9,9 @@ import java.util.Optional;
 public interface JournalEntryRepository extends JpaRepository<JournalEntry, Long> {
     List<JournalEntry> findByUserOrderByCreatedAtDesc(User user);
     Optional<JournalEntry> findByIdAndUser(Long id, User user);
-    List<JournalEntry> findByUserAssignedAndSharedWithProfessionalTrue(User assigned);
+    List<JournalEntry> findByUserAndSharedWithProfessionalTrueOrderByCreatedAtDesc(User user);
+
+    // Si vas a listar lo visible para el profesional, define según tu modelo:
+    // List<JournalEntry> findByProfessionalAndSharedWithProfessionalTrueOrderByCreatedAtDesc(User professional);
 }
 

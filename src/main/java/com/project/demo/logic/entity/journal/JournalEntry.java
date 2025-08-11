@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.journal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,8 +20,7 @@ public class JournalEntry {
     @Column(nullable = false, length = 5000)
     private String content;
 
-    @ManyToOne(optional = false)
-    private User user;
+
 
     private LocalDateTime createdAt;
 
@@ -29,5 +29,19 @@ public class JournalEntry {
 
     @Column(nullable = false)
     private boolean sharedWithProfessional;
+
+    @Column(length = 24)
+    private String sentimentLabel;
+
+    @Column
+    private Double sentimentScore;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
 }
 
