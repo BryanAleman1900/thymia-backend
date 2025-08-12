@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.emotion;
 
+import com.project.demo.logic.entity.call.CallSession;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
 
@@ -27,6 +28,8 @@ public class EmotionDetection {
         this.user = user;
     }
 
+    @ManyToOne
+    private CallSession session; // <--- NUEVO
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -39,4 +42,7 @@ public class EmotionDetection {
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
+
+    public CallSession getSession() { return session; }
+    public void setSession(CallSession session) { this.session = session; }
 }
