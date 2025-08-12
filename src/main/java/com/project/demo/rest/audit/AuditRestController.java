@@ -1,4 +1,4 @@
-package com.project.demo.rest.admin;
+package com.project.demo.rest.audit;
 
 import com.project.demo.logic.entity.audit.Audit;
 import com.project.demo.logic.entity.audit.AuditRepository;
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/admin/audit")
+@RequestMapping("/admin/audit")
 @PreAuthorize("hasRole('SUPER_ADMIN')")
 public class AuditRestController {
 
@@ -23,12 +25,12 @@ public class AuditRestController {
     }
 
     @GetMapping("/logins")
-    public ResponseEntity<?> getLoginHistory(
+    public ResponseEntity<Page<Map<String, Object>>> getLoginHistory(
             @RequestParam(required = false) String action,
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate,
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
         Page<Audit> logs;
@@ -42,15 +44,26 @@ public class AuditRestController {
                     userId,
                     start,
                     end,
-                    PageRequest.of(page - 1, size)
+                    PageRequest.of(page , size)
             );
         } else {
             logs = auditRepository.findAllByOrderByLoginTimeDesc(
-                    PageRequest.of(page - 1, size)
+                    PageRequest.of(page , size)
             );
         }
 
-        return ResponseEntity.ok(logs.map(this::formatLogEntry));
+        return ResponseEntity.ok(logs.map(log -> {
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", log.getId());
+            response.put("user", log.getUser() != null ? Map.of(
+                    "id", log.getUser().getId(),
+                    "name", log.getUser().getName(),
+                    "email", log.getUser().getEmail()
+            ) : null);
+            response.put("action", log.getAction());
+            response.put("loginTime", log.getLoginTime().toString());
+            return response;
+        }));
     }
 
     private boolean hasFilters(String action, Long userId, String startDate, String endDate) {
