@@ -54,7 +54,6 @@ public class AuthenticationService {
                 userRepository.save(user);
                 throw new ResponseStatusException(HttpStatus.LOCKED, "El usuario está bloqueado hasta: " + user.getFechaBloqueo());
             }
-
             userRepository.save(user);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Las credenciales ingresadas son inválidas. Intentos fallidos: " + intentos);
         }

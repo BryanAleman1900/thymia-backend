@@ -42,7 +42,6 @@ public class GlobalResponseHandler {
         return new ResponseEntity<>(response, status);
     }
 
-    // ✅ Integrado desde Carlos
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleException(Exception e) {
         if (e instanceof ResponseStatusException) {
