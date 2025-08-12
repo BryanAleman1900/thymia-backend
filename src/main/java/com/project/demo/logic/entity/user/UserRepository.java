@@ -3,6 +3,8 @@ package com.project.demo.logic.entity.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,5 +28,12 @@ public interface UserRepository extends JpaRepository<User, Long>  {
     Set<User> findAllById(@Param("ids") Set<Long> ids);
 
     Set<User> findByIdIn(Set<Long> ids);
-
+    @Query("""
+           SELECT u FROM User u
+           WHERE (:q IS NULL OR :q = '' 
+             OR LOWER(u.name)     LIKE LOWER(CONCAT('%', :q, '%'))
+             OR LOWER(u.lastname) LIKE LOWER(CONCAT('%', :q, '%'))
+             OR LOWER(u.email)    LIKE LOWER(CONCAT('%', :q, '%')))
+           """)
+    Page<User> search(@Param("q") String q, Pageable pageable);
 }

@@ -1,6 +1,6 @@
 package com.project.demo.logic.entity.user;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.project.demo.logic.entity.appointment.Appointment;
 import com.project.demo.logic.entity.rol.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
