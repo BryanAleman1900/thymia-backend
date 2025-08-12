@@ -35,7 +35,6 @@ public class UserRestController {
     @Autowired
     private RoleRepository roleRepository;
 
-    // -------- GET /users con búsqueda + paginación + orden (default: createdAt DESC)
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getAll(
@@ -46,7 +45,6 @@ public class UserRestController {
             @RequestParam(defaultValue = "desc") String sortDir,
             HttpServletRequest request) {
 
-        // Page es 1-based para el front
         int pageIndex = Math.max(page - 1, 0);
         Sort sort = "asc".equalsIgnoreCase(sortDir)
                 ? Sort.by(sortBy).ascending()
@@ -173,5 +171,27 @@ public class UserRestController {
         userRepository.save(currentUser);
         return new GlobalResponseHandler().handleResponse("Face ID registrado",
                 currentUser, HttpStatus.OK, httpRequest);
+    }
+
+    @GetMapping("/by-role/{role}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getByRole(@PathVariable String role, HttpServletRequest request) {
+        RoleEnum target = RoleEnum.valueOf(role.toUpperCase());
+
+        var users = userRepository.findByRole_Name(target).stream()
+                .map(u -> new UserSimpleDto(
+                        u.getId(),
+                        (u.getName() != null ? u.getName() : "") +
+                                (u.getLastname() != null ? " " + u.getLastname() : ""),
+                        u.getEmail()
+                ))
+                .toList();
+
+        return new GlobalResponseHandler().handleResponse(
+                "Users retrieved successfully",
+                users,
+                HttpStatus.OK,
+                request
+        );
     }
 }
