@@ -28,7 +28,7 @@ public class JournalEntryController {
     private final JournalEntryService service;
     private final UserRepository userRepository;
 
-    // === Crear entrada ===
+
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> createEntry(@RequestBody JournalRequest request,
@@ -41,7 +41,7 @@ public class JournalEntryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(JournalEntryDto.from(saved));
     }
 
-    // === Mis entradas ===
+
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getMyEntries(@AuthenticationPrincipal User user) {
@@ -51,7 +51,7 @@ public class JournalEntryController {
         return ResponseEntity.ok(dto);
     }
 
-    // === 1) Listar terapeutas (null-safe + tolerante a errores) ===
+
     @GetMapping("/therapists")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<TherapistDTO>> listTherapists() {
@@ -66,7 +66,6 @@ public class JournalEntryController {
             return ResponseEntity.ok(data);
         } catch (Exception e) {
             log.warn("Error building therapists list: {}", e.getMessage(), e);
-            // devolvemos 200 [] para que el front muestre "No hay terapeutas disponibles"
             return ResponseEntity.ok(Collections.emptyList());
         }
     }
@@ -74,7 +73,7 @@ public class JournalEntryController {
     private static String nullToEmpty(String s) { return s == null ? "" : s; }
     public record TherapistDTO(String name, String email) {}
 
-    // === 2) Compartir con 1..N terapeutas ===
+
     @Data
     public static class ShareRequest { private Set<String> therapistEmails; }
 
@@ -88,7 +87,7 @@ public class JournalEntryController {
         return ResponseEntity.ok().build();
     }
 
-    // === 3) Revocar compartir ===
+
     @DeleteMapping("/{id}/share")
     @PreAuthorize("isAuthenticated()") // o hasRole('PATIENT')
     public ResponseEntity<?> revokeShare(@PathVariable Long id,
@@ -99,7 +98,7 @@ public class JournalEntryController {
         return ResponseEntity.noContent().build();
     }
 
-    // === 4) Vista del terapeuta: "compartido conmigo" ===
+
     @GetMapping("/shared-with-me")
     @PreAuthorize("hasRole('THERAPIST')")
     public List<JournalEntryService.SharedJournalEntryDTO> sharedWithMe(
@@ -107,7 +106,7 @@ public class JournalEntryController {
         return service.getSharedWithMe(currentEmail);
     }
 
-    // ===== DTOs =====
+
     @Data
     public static class JournalRequest {
         private String content;

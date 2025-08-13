@@ -18,7 +18,7 @@ public class WellnessAdviceGenerator {
 
         String lc = text.toLowerCase(Locale.ROOT);
 
-        // Palabras clave sencillas (ajusta a tu dominio)
+
         boolean ansiedad = containsAny(lc, "ansiedad","ansioso","angustia","nervioso","panic");
         boolean tristeza = containsAny(lc, "triste","deprim","desanimado","vacío");
         boolean enojo   = containsAny(lc, "enojo","ira","frustrado","molesto","rabia");
@@ -73,7 +73,7 @@ public class WellnessAdviceGenerator {
                             "suenio"
                     );
                 }
-                // fallback negativo
+
                 return new Advice(
                         "Pausa consciente (2 min)",
                         """

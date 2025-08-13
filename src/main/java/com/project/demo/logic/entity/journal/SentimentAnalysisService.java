@@ -37,7 +37,7 @@ public class SentimentAnalysisService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    /** Alias usado por JournalEntryService */
+
     public SentimentResult analyze(String text) {
         return analyzeSentiment(text);
     }
@@ -57,7 +57,7 @@ public class SentimentAnalysisService {
             return new SentimentResult(null, 0d);
         }
 
-        // https://api-inference.huggingface.co/models/{model}?wait_for_model=true
+
         String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .pathSegment("models")
                 .pathSegment(modelId.split("/"))
@@ -146,7 +146,7 @@ public class SentimentAnalysisService {
         }
     }
 
-    /** Normaliza etiquetas: LABEL_0/1/2 y negative/neutral/positive */
+
     private String normalize(String raw) {
         if (raw == null) return null;
         String up = raw.toUpperCase(Locale.ROOT).trim();
