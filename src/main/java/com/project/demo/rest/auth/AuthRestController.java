@@ -1,3 +1,5 @@
+
+
 package com.project.demo.rest.auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -128,37 +130,37 @@ public class AuthRestController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    @PostMapping("/face-id/login")
-    public ResponseEntity<?> loginWithFaceIO(@RequestBody FaceIOLoginRequest request) {
-        Optional<User> userOpt = userRepository.findByFaceIdValue(request.getFacialId());
+//    @PostMapping("/face-id/login")
+//    public ResponseEntity<?> loginWithFaceIO(@RequestBody FaceIOLoginRequest request) {
+//        Optional<User> userOpt = userRepository.findByFaceIdValue(request.getFacialId());
+//
+//        if (userOpt.isPresent()) {
+//            User user = userOpt.get();
+//            String token = jwtService.generateToken(user);
+//
+//            LoginResponse response = new LoginResponse();
+//            response.setToken(token);
+//            response.setExpiresIn(jwtService.getExpirationTime());
+//            response.setAuthUser(user);
+//
+//            return ResponseEntity.ok(response);
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado con ese facialId");
+//    }
 
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            String token = jwtService.generateToken(user);
-
-            LoginResponse response = new LoginResponse();
-            response.setToken(token);
-            response.setExpiresIn(jwtService.getExpirationTime());
-            response.setAuthUser(user);
-
-            return ResponseEntity.ok(response);
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado con ese facialId");
-    }
-
-    @GetMapping("/status")
-    public ResponseEntity<?> verificarBloqueo(@RequestParam String email, HttpServletRequest request) {
-        User user = userRepository.findByEmail(email).orElse(null);
-
-        if (user == null) {
-            return responseHandler.handleResponse("Usuario no encontrado", HttpStatus.NOT_FOUND, request);
-        }
-
-        if (user.getFechaBloqueo() != null && user.getFechaBloqueo().isAfter(LocalDateTime.now())) {
-            return responseHandler.handleResponse("Usuario bloqueado hasta: " + user.getFechaBloqueo(), HttpStatus.LOCKED, request);
-        }
-
-        return responseHandler.handleResponse("Usuario no está bloqueado", HttpStatus.OK, request);
-    }
+//    @GetMapping("/status")
+//    public ResponseEntity<?> verificarBloqueo(@RequestParam String email, HttpServletRequest request) {
+//        User user = userRepository.findByEmail(email).orElse(null);
+//
+//        if (user == null) {
+//            return responseHandler.handleResponse("Usuario no encontrado", HttpStatus.NOT_FOUND, request);
+//        }
+//
+//        if (user.getFechaBloqueo() != null && user.getFechaBloqueo().isAfter(LocalDateTime.now())) {
+//            return responseHandler.handleResponse("Usuario bloqueado hasta: " + user.getFechaBloqueo(), HttpStatus.LOCKED, request);
+//        }
+//
+//        return responseHandler.handleResponse("Usuario no está bloqueado", HttpStatus.OK, request);
+//    }
 }
