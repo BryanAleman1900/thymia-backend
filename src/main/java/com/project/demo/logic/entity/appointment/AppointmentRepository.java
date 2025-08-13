@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.appointment;
 
+import com.project.demo.logic.entity.appointment.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,25 +11,34 @@ import java.util.Set;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    @Query("""
-           SELECT a
-           FROM Appointment a
-           WHERE (a.startTime BETWEEN :start AND :end)
-              OR (a.endTime   BETWEEN :start AND :end)
-              OR (a.startTime <= :start AND a.endTime >= :end)
-           """)
-    List<Appointment> findByStartTimeBetween(@Param("start") LocalDateTime start,
-                                             @Param("end") LocalDateTime end);
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.startTime < :end AND a.endTime > :start")
+    List<Appointment> findWindow(@Param("start") LocalDateTime start,
+                                 @Param("end") LocalDateTime end);
 
-    @Query("""
-           SELECT DISTINCT a
-           FROM Appointment a
-           JOIN a.guests g
-           WHERE g.id IN :userIds
-           """)
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.patient.id = :patientId AND a.startTime < :end AND a.endTime > :start")
+    List<Appointment> findWindowByPatient(@Param("patientId") Long patientId,
+                                          @Param("start") LocalDateTime start,
+                                          @Param("end") LocalDateTime end);
+
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.doctor.id = :doctorId AND a.startTime < :end AND a.endTime > :start")
+    List<Appointment> findWindowByDoctor(@Param("doctorId") Long doctorId,
+                                         @Param("start") LocalDateTime start,
+                                         @Param("end") LocalDateTime end);
+
+    @Query("SELECT a FROM Appointment a " +
+            "WHERE a.doctor.id = :doctorId AND a.patient.id = :patientId " +
+            "AND a.startTime < :end AND a.endTime > :start")
+    List<Appointment> findWindowByDoctorAndPatient(@Param("doctorId") Long doctorId,
+                                                   @Param("patientId") Long patientId,
+                                                   @Param("start") LocalDateTime start,
+                                                   @Param("end") LocalDateTime end);
+
+    @Query("SELECT DISTINCT a FROM Appointment a JOIN a.guests g WHERE g.id IN :userIds")
     List<Appointment> findAllByGuestIds(@Param("userIds") Set<Long> userIds);
 
     List<Appointment> findByPatientId(Long patientId);
-
     List<Appointment> findByDoctorId(Long doctorId);
 }
