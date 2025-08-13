@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.user;
 
+import com.project.demo.logic.entity.rol.RoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -39,4 +40,6 @@ public interface UserRepository extends JpaRepository<User, Long>  {
              OR LOWER(u.email)    LIKE LOWER(CONCAT('%', :q, '%')))
            """)
     Page<User> search(@Param("q") String q, Pageable pageable);
+
+    List<User> findByRole_Name(RoleEnum role);
 }
