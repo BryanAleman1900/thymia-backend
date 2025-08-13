@@ -33,27 +33,21 @@ public class AppointmentRestController {
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody AppointmentRequest request,
                                                          @AuthenticationPrincipal User current) {
+        if (request.getPatientId() == null) throw new ResponseStatusException(BAD_REQUEST, "patientId es requerido");
+        if (request.getDoctorId() == null)  throw new ResponseStatusException(BAD_REQUEST, "doctorId es requerido");
+        if (request.getStartTime() == null || request.getEndTime() == null)
+            throw new ResponseStatusException(BAD_REQUEST, "startTime y endTime son requeridos");
 
-        if (request.getPatientId() == null) {
-            throw new ResponseStatusException(BAD_REQUEST, "patientId is required");
-        }
-        if (request.getDoctorId() == null) {
-            throw new ResponseStatusException(BAD_REQUEST, "doctorId is required");
-        }
-        if (request.getStartTime() == null || request.getEndTime() == null) {
-            throw new ResponseStatusException(BAD_REQUEST, "startTime and endTime are required");
-        }
-        if (!hasRole(current, "USER")) {
-            throw new ResponseStatusException(FORBIDDEN, "Only patients can create appointments");
-        }
-        if (!Objects.equals(request.getPatientId(), current.getId())) {
-            throw new ResponseStatusException(FORBIDDEN, "You can only create appointments for yourself");
-        }
+        if (!hasRole(current, "USER") || !Objects.equals(request.getPatientId(), current.getId()))
+            throw new ResponseStatusException(FORBIDDEN, "Sólo el paciente propietario puede crear esta cita.");
+
+        if (appointmentRepo.existsOverlapForDoctor(request.getDoctorId(), request.getStartTime(), request.getEndTime()))
+            throw new ResponseStatusException(CONFLICT, "El doctor ya tiene agendada una cita con otro paciente a esa hora");
 
         User patient = userRepo.findById(request.getPatientId())
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Patient not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Paciente no encontrado"));
         User doctor  = userRepo.findById(request.getDoctorId())
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Doctor not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Doctor no encontrado"));
 
         Appointment a = new Appointment();
         a.setTitle(request.getTitle());
@@ -77,25 +71,38 @@ public class AppointmentRestController {
         return ResponseEntity.ok(saved);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable Long id,
                                                          @RequestBody AppointmentRequest request,
                                                          @AuthenticationPrincipal User current) {
-
         Appointment a = appointmentRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Appointment not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cita no encontrada"));
 
-        if (!hasRole(current, "USER") || !Objects.equals(a.getPatient().getId(), current.getId())) {
-            throw new ResponseStatusException(FORBIDDEN, "Only the owning patient can update this appointment");
-        }
+        boolean isOwnerPatient = a.getPatient() != null && Objects.equals(a.getPatient().getId(), current.getId());
+        boolean isDoctor       = a.getDoctor()  != null && Objects.equals(a.getDoctor().getId(), current.getId());
+        boolean isAdmin        = hasRole(current, "ADMIN") || hasRole(current, "SUPER_ADMIN");
 
-        if (request.getTitle() != null) a.setTitle(request.getTitle());
-        if (request.getStartTime() != null) a.setStartTime(request.getStartTime());
-        if (request.getEndTime() != null) a.setEndTime(request.getEndTime());
+        if (!(isOwnerPatient || isDoctor || isAdmin))
+            throw new ResponseStatusException(FORBIDDEN, "Usted no está permitido en actualizar esta cita");
+
+        Long doctorId = request.getDoctorId() != null ? request.getDoctorId()
+                : (a.getDoctor() != null ? a.getDoctor().getId() : null);
+        LocalDateTime start = request.getStartTime() != null ? request.getStartTime() : a.getStartTime();
+        LocalDateTime end   = request.getEndTime()   != null ? request.getEndTime()   : a.getEndTime();
+
+        if (doctorId == null) throw new ResponseStatusException(BAD_REQUEST, "doctorId es requerido");
+
+        if (appointmentRepo.existsOverlapForDoctorExcludingId(doctorId, start, end, a.getId()))
+            throw new ResponseStatusException(CONFLICT, "El doctor ya tiene agendada una cita con otro paciente a esa hora");
+
+        if (request.getTitle() != null)       a.setTitle(request.getTitle());
+        if (request.getStartTime() != null)   a.setStartTime(request.getStartTime());
+        if (request.getEndTime() != null)     a.setEndTime(request.getEndTime());
         if (request.getDescription() != null) a.setDescription(request.getDescription());
         if (request.getDoctorId() != null) {
             User doctor = userRepo.findById(request.getDoctorId())
-                    .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Doctor not found"));
+                    .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Doctor no encontrado"));
             a.setDoctor(doctor);
         }
 
@@ -107,32 +114,37 @@ public class AppointmentRestController {
         return ResponseEntity.ok(saved);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long id,
                                                   @AuthenticationPrincipal User current) {
         Appointment a = appointmentRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Appointment not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cita no encontrada"));
 
-        if (!hasRole(current, "USER") || !Objects.equals(a.getPatient().getId(), current.getId())) {
-            throw new ResponseStatusException(FORBIDDEN, "Only the owning patient can delete this appointment");
-        }
+        boolean isOwnerPatient = a.getPatient() != null && Objects.equals(a.getPatient().getId(), current.getId());
+        boolean isDoctor       = a.getDoctor()  != null && Objects.equals(a.getDoctor().getId(), current.getId());
+        boolean isAdmin        = hasRole(current, "ADMIN") || hasRole(current, "SUPER_ADMIN");
+
+        if (!(isOwnerPatient || isDoctor || isAdmin))
+            throw new ResponseStatusException(FORBIDDEN, "Usted no está permitido para borrar esta cita");
 
         appointmentRepo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getById(@PathVariable Long id,
                                                @AuthenticationPrincipal User current) {
         Appointment a = appointmentRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Appointment not found"));
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Cita no encontrada"));
 
         boolean isOwner = a.getPatient() != null && Objects.equals(a.getPatient().getId(), current.getId());
         boolean isDoctor = a.getDoctor() != null && Objects.equals(a.getDoctor().getId(), current.getId());
         boolean isAdmin = hasRole(current, "ADMIN") || hasRole(current, "SUPER_ADMIN");
 
         if (!(isOwner || isDoctor || isAdmin)) {
-            throw new ResponseStatusException(FORBIDDEN, "You are not allowed to view this appointment");
+            throw new ResponseStatusException(FORBIDDEN, "Usted no esta permitido de ver esta cita");
         }
 
         if (a.getDoctor() != null) a.getDoctor().getId();

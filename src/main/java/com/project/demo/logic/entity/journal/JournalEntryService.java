@@ -24,19 +24,14 @@ public class JournalEntryService {
     private final WellnessAdviceGenerator wellnessAdviceGenerator;
     private final UserRepository userRepository;
 
-    /**
-     * Crea una entrada, analiza sentimiento y guarda.
-     * El boolean 'shared' se deja para compatibilidad (no asigna terapeutas).
-     */
     public JournalEntry create(User user, String content, boolean shared) {
         JournalEntry entry = JournalEntry.builder()
                 .user(user)
                 .content(content)
-                .sharedWithProfessional(shared) // indicador visual/legado
+                .sharedWithProfessional(shared)
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        // Análisis de sentimiento (tolerante a fallos)
         try {
             var result = sentimentService.analyze(content);
             entry.setSentimentLabel(result.label());
@@ -47,7 +42,6 @@ public class JournalEntryService {
 
         JournalEntry saved = journalRepository.save(entry);
 
-        // Tip de bienestar con cooldown
         try {
             var advice = wellnessAdviceGenerator.generate(
                     user, saved.getContent(), saved.getSentimentLabel(), saved.getSentimentScore());
@@ -64,12 +58,10 @@ public class JournalEntryService {
         return saved;
     }
 
-    /** Lista entradas del usuario (más recientes primero). No toca la colección de compartidos. */
     public List<JournalEntry> getAllForUser(User user) {
         return journalRepository.findByUserOrderByCreatedAtDesc(user);
     }
 
-    /** LEGADO: toggle booleano antiguo (mantener por compatibilidad si algo lo usa aún). */
     @Deprecated
     public void updateSharing(Long id, boolean shared, User user) {
         var entry = journalRepository.findByIdAndUser(id, user)
@@ -78,13 +70,11 @@ public class JournalEntryService {
         journalRepository.save(entry);
     }
 
-    /** LEGADO: listado de entradas marcadas como compartidas (boolean viejo). */
     @Deprecated
     public List<JournalEntry> getSharedForUser(User user) {
         return journalRepository.findByUserAndSharedWithProfessionalTrueOrderByCreatedAtDesc(user);
     }
 
-    /** Comparte una entrada con 1..N terapeutas (por email). Actualiza el flag denormalizado. */
     public void shareWithTherapists(User owner, Long journalId, Set<String> therapistEmails) {
         if (therapistEmails == null || therapistEmails.isEmpty()) {
             throw new IllegalArgumentException("Debe seleccionar al menos un terapeuta.");
@@ -93,7 +83,6 @@ public class JournalEntryService {
         var entry = journalRepository.findByIdAndUser(journalId, owner)
                 .orElseThrow(() -> new IllegalArgumentException("Entrada no encontrada o no pertenece al usuario"));
 
-        // Validar que todos existan y tengan rol THERAPIST
         for (String email : therapistEmails) {
             var u = userRepository.findByEmail(email)
                     .orElseThrow(() -> new IllegalArgumentException("Terapeuta no existe: " + email));
@@ -104,24 +93,22 @@ public class JournalEntryService {
 
         boolean changed = entry.getSharedWithTherapists().addAll(therapistEmails);
         if (changed && !entry.getSharedWithTherapists().isEmpty()) {
-            entry.setSharedWithProfessional(true); // enciende badge
+            entry.setSharedWithProfessional(true);
         }
         journalRepository.save(entry);
     }
 
-    /** Revoca el compartir con un terapeuta. Actualiza el flag denormalizado. */
     public void revokeShare(User owner, Long journalId, String therapistEmail) {
         var entry = journalRepository.findByIdAndUser(journalId, owner)
                 .orElseThrow(() -> new IllegalArgumentException("Entrada no encontrada o no pertenece al usuario"));
 
         entry.getSharedWithTherapists().remove(therapistEmail);
         if (entry.getSharedWithTherapists().isEmpty()) {
-            entry.setSharedWithProfessional(false); // apaga badge si ya no quedan terapeutas
+            entry.setSharedWithProfessional(false);
         }
         journalRepository.save(entry);
     }
 
-    /** DTO para la vista del terapeuta ("Compartido conmigo"). */
     public record SharedJournalEntryDTO(
             Long id,
             String content,
@@ -132,7 +119,6 @@ public class JournalEntryService {
             LocalDateTime createdAt
     ) {}
 
-    /** Entradas que otros pacientes compartieron conmigo (terapeuta autenticado). */
     public List<SharedJournalEntryDTO> getSharedWithMe(String therapistEmail) {
         return journalRepository.findSharedWithTherapist(therapistEmail).stream()
                 .map(e -> new SharedJournalEntryDTO(
@@ -147,5 +133,3 @@ public class JournalEntryService {
                 .toList();
     }
 }
-
-
