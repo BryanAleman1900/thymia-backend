@@ -24,10 +24,7 @@ public class JournalEntryService {
     private final WellnessAdviceGenerator wellnessAdviceGenerator;
     private final UserRepository userRepository;
 
-    /**
-     * Crea una entrada, analiza sentimiento y guarda.
-     * El boolean 'shared' se deja para compatibilidad (no asigna terapeutas).
-     */
+
     public JournalEntry create(User user, String content, boolean shared) {
         JournalEntry entry = JournalEntry.builder()
                 .user(user)
@@ -64,12 +61,12 @@ public class JournalEntryService {
         return saved;
     }
 
-    /** Lista entradas del usuario (más recientes primero). No toca la colección de compartidos. */
+
     public List<JournalEntry> getAllForUser(User user) {
         return journalRepository.findByUserOrderByCreatedAtDesc(user);
     }
 
-    /** LEGADO: toggle booleano antiguo (mantener por compatibilidad si algo lo usa aún). */
+
     @Deprecated
     public void updateSharing(Long id, boolean shared, User user) {
         var entry = journalRepository.findByIdAndUser(id, user)
@@ -78,13 +75,13 @@ public class JournalEntryService {
         journalRepository.save(entry);
     }
 
-    /** LEGADO: listado de entradas marcadas como compartidas (boolean viejo). */
+
     @Deprecated
     public List<JournalEntry> getSharedForUser(User user) {
         return journalRepository.findByUserAndSharedWithProfessionalTrueOrderByCreatedAtDesc(user);
     }
 
-    /** Comparte una entrada con 1..N terapeutas (por email). Actualiza el flag denormalizado. */
+
     public void shareWithTherapists(User owner, Long journalId, Set<String> therapistEmails) {
         if (therapistEmails == null || therapistEmails.isEmpty()) {
             throw new IllegalArgumentException("Debe seleccionar al menos un terapeuta.");
@@ -109,7 +106,7 @@ public class JournalEntryService {
         journalRepository.save(entry);
     }
 
-    /** Revoca el compartir con un terapeuta. Actualiza el flag denormalizado. */
+
     public void revokeShare(User owner, Long journalId, String therapistEmail) {
         var entry = journalRepository.findByIdAndUser(journalId, owner)
                 .orElseThrow(() -> new IllegalArgumentException("Entrada no encontrada o no pertenece al usuario"));
@@ -121,7 +118,7 @@ public class JournalEntryService {
         journalRepository.save(entry);
     }
 
-    /** DTO para la vista del terapeuta ("Compartido conmigo"). */
+
     public record SharedJournalEntryDTO(
             Long id,
             String content,
@@ -132,7 +129,7 @@ public class JournalEntryService {
             LocalDateTime createdAt
     ) {}
 
-    /** Entradas que otros pacientes compartieron conmigo (terapeuta autenticado). */
+
     public List<SharedJournalEntryDTO> getSharedWithMe(String therapistEmail) {
         return journalRepository.findSharedWithTherapist(therapistEmail).stream()
                 .map(e -> new SharedJournalEntryDTO(

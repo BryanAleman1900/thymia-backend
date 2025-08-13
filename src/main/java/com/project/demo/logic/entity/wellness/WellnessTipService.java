@@ -18,24 +18,16 @@ public class WellnessTipService {
 
     private final WellnessTipReceiptRepository repo;
 
-    /**
-     * Cooldown por categoría para no spamear tips al mismo usuario.
-     * Puedes sobreescribir con application.yml: wellness.tips.cooldown-hours: 12
-     */
     @Value("${wellness.tips.cooldown-hours:12}")
     private int cooldownHours;
 
-    /**
-     * Lista tips del usuario autenticado, ordenados por creación desc (delegado al repo).
-     */
+
     public Page<WellnessTipReceipt> listForUser(User user, Pageable pageable) {
         if (user == null) throw new IllegalArgumentException("Usuario requerido");
         return repo.findByUserOrderByCreatedAtDesc(user, pageable);
     }
 
-    /**
-     * Marca un tip como visto por su dueño, incrementando contador y timestamps de vista.
-     */
+
     @Transactional
     public WellnessTipReceipt viewTip(User me, Long id) {
         if (me == null) throw new IllegalArgumentException("Usuario requerido");
@@ -63,10 +55,7 @@ public class WellnessTipService {
         return repo.save(tip);
     }
 
-    /**
-     * Entrega un tip si no hay otro reciente de la misma categoría dentro del cooldown.
-     * Devuelve true si se emitió, false si se omitió por cooldown.
-     */
+
     public boolean deliverIfNotThrottled(User user, String title, String content, String category, String source) {
         if (user == null) throw new IllegalArgumentException("Usuario requerido");
         if (isBlank(title) || isBlank(content)) return false;
@@ -80,9 +69,7 @@ public class WellnessTipService {
         return true;
     }
 
-    /**
-     * Persiste el tip para el usuario (sin verificar cooldown).
-     */
+
     public WellnessTipReceipt deliverToUser(User user, String title, String content, String category, String source) {
         if (user == null) throw new IllegalArgumentException("Usuario requerido");
         WellnessTipReceipt tip = WellnessTipReceipt.builder()
@@ -96,7 +83,7 @@ public class WellnessTipService {
         return repo.save(tip);
     }
 
-    // ----------------- helpers -----------------
+
 
     private Duration getCooldown() {
         int hours = (cooldownHours <= 0) ? 12 : cooldownHours;
