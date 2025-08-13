@@ -99,6 +99,10 @@ public class AppointmentRestController {
             @RequestParam Set<Long> userIds) {
         return ResponseEntity.ok(appointmentRepo.findAllByGuestIds(userIds));
     }
+<<<<<<< HEAD
+}
+=======
 
 
 }
+>>>>>>> main
