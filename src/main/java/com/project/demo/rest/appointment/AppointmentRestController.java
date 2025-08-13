@@ -206,3 +206,4 @@ public class AppointmentRestController {
         private Set<Long> guestIds;
     }
 }
+

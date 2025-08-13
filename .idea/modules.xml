@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.project.java-spring.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.project.java-spring.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-spring.main.iml" filepath="$PROJECT_DIR$/.idea/modules/java-spring.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/thymia-backend.java-spring.main.iml" filepath="$PROJECT_DIR$/.idea/modules/thymia-backend.java-spring.main.iml" />
     </modules>
   </component>
 </project>

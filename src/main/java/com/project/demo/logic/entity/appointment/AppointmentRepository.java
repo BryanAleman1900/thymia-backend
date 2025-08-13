@@ -41,6 +41,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT DISTINCT a FROM Appointment a JOIN a.guests g WHERE g.id IN :userIds")
     List<Appointment> findAllByGuestIds(@Param("userIds") Set<Long> userIds);
 
+
     List<Appointment> findByPatientId(Long patientId);
     List<Appointment> findByDoctorId(Long doctorId);
 }
