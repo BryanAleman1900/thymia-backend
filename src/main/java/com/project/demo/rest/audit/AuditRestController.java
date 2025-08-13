@@ -2,6 +2,7 @@ package com.project.demo.rest.audit;
 
 import com.project.demo.logic.entity.audit.Audit;
 import com.project.demo.logic.entity.audit.AuditRepository;
+import com.project.demo.logic.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,36 @@ public class AuditRestController {
 
     public AuditRestController(AuditRepository auditRepository) {
         this.auditRepository = auditRepository;
+    }
+
+    @PostMapping("/log-failure")
+    public ResponseEntity<Void> logFailedLogin(
+            @RequestParam String username,
+            @RequestParam String ipAddress) {
+
+        Audit audit = new Audit();
+        audit.setAction("LOGIN_FAILED");
+        audit.setLoginTime(LocalDateTime.now());
+        auditRepository.save(audit);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/log-success")
+    public ResponseEntity<Void> logSuccessfulLogin(
+            @RequestParam Long userId,
+            @RequestParam String ipAddress) {
+
+        User user = new User();
+        user.setId(userId);
+
+        Audit audit = new Audit();
+        audit.setUser(user);
+        audit.setAction("LOGIN");
+        audit.setLoginTime(LocalDateTime.now());
+        auditRepository.save(audit);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/logins")
