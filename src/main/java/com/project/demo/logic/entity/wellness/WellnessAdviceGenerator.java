@@ -113,13 +113,11 @@ public class WellnessAdviceGenerator {
                         "Escanea tensión, suelta hombros. Bebe agua y estira cuello 30s por lado.",
                         "autocuidado_basico"
                 );
+            }
         }
-    }
     }
     private boolean containsAny(String text, String... needles) {
         for (String n : needles) if (text.contains(n)) return true;
         return false;
     }
 }
-
-
