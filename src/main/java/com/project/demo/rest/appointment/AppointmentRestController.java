@@ -4,19 +4,28 @@ import com.project.demo.logic.entity.appointment.Appointment;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.appointment.AppointmentRepository;
 import com.project.demo.logic.entity.user.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/appointments")
+
 public class AppointmentRestController {
 
     @Autowired
@@ -90,4 +99,10 @@ public class AppointmentRestController {
             @RequestParam Set<Long> userIds) {
         return ResponseEntity.ok(appointmentRepo.findAllByGuestIds(userIds));
     }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> main
