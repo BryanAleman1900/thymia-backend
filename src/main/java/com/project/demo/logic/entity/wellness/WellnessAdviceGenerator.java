@@ -18,7 +18,7 @@ public class WellnessAdviceGenerator {
 
         String lc = text.toLowerCase(Locale.ROOT);
 
-        // Palabras clave sencillas (ajusta a tu dominio)
+
         boolean ansiedad = containsAny(lc, "ansiedad","ansioso","angustia","nervioso","panic");
         boolean tristeza = containsAny(lc, "triste","deprim","desanimado","vacío");
         boolean enojo   = containsAny(lc, "enojo","ira","frustrado","molesto","rabia");
@@ -35,7 +35,8 @@ public class WellnessAdviceGenerator {
                             • Exhala contando 6.
                             • Repite 8–10 ciclos.
                             Suma una técnica 5-4-3-2-1 (menciona 5 cosas que ves, 4 que sientes, 3 que oyes, 2 que hueles, 1 que saboreas).
-                            Si persiste, agenda un espacio breve para moverte o estirarte 3 minutos.
+                            Si persiste, agenda un espacio breve para moverte o estirarte 3 minutos. Y si aun sigues padeciendo de estos 
+                            sintomas despues de hacer el ejercicio te recomendamos agendar con un terapeuta lo mas pronto posible.
                             """,
                             "ansiedad"
                     );
@@ -46,7 +47,7 @@ public class WellnessAdviceGenerator {
                             """
                             Cuando hay bajón de ánimo, elige una tarea micro (≤5 min): tender la cama,
                             un vaso de agua, abrir la ventana y respirar aire fresco, o escribir 3 cosas neutrales que hiciste hoy.
-                            Marca 1 acción ahora mismo y regístrala.
+                            Marca 1 acción ahora mismo y regístrala. Si continuas sintiendote asi es recomendable agendar con un profecional.
                             """,
                             "estado_de_animo"
                     );
@@ -57,6 +58,7 @@ public class WellnessAdviceGenerator {
                             """
                             El enojo pide movimiento. Opciones: apretar una pelota antiestrés 60s, 20 sentadillas,
                             o escribir sin filtro 2 minutos y luego romper/archivar la hoja. Cierra con 4 respiraciones lentas.
+                            Si no sientes mejoria agenda con un terapeuta para que te ayude a controlar la ira.
                             """,
                             "regulacion_emocional"
                     );
@@ -68,12 +70,13 @@ public class WellnessAdviceGenerator {
                             • Apaga pantallas 30 min antes de dormir.
                             • Nota 3 pensamientos en una 'lista de pendientes para mañana'.
                             • Realiza 6 respiraciones 4-6.
-                            Si no duermes en 20 min, levántate y lee algo ligero con luz tenue.
+                            Si no duermes en 20 min, levántate y lee algo ligero con luz tenue. Si lo anterior no funciona 
+                            es recomendable agendar con algun terapeuta y pedirle consejo.
                             """,
                             "suenio"
                     );
                 }
-                // fallback negativo
+
                 return new Advice(
                         "Pausa consciente (2 min)",
                         """
@@ -110,13 +113,11 @@ public class WellnessAdviceGenerator {
                         "Escanea tensión, suelta hombros. Bebe agua y estira cuello 30s por lado.",
                         "autocuidado_basico"
                 );
+            }
         }
-    }
     }
     private boolean containsAny(String text, String... needles) {
         for (String n : needles) if (text.contains(n)) return true;
         return false;
     }
 }
-
-
