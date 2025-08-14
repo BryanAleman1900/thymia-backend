@@ -13,7 +13,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT a FROM Appointment a WHERE a.startTime < :end AND a.endTime > :start")
     List<Appointment> findWindow(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    // Paciente / Doctor / Ambos
     @Query("SELECT a FROM Appointment a WHERE a.patient.id = :patientId AND a.startTime < :end AND a.endTime > :start")
     List<Appointment> findWindowByPatient(@Param("patientId") Long patientId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 

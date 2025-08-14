@@ -25,10 +25,10 @@ public class JournalEntry {
     @Column(nullable = false, length = 5000)
     private String content;
 
-    @ElementCollection(fetch = FetchType.LAZY) // ← antes EAGER
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "journal_shared_with", joinColumns = @JoinColumn(name = "journal_id"))
     @Column(name = "therapist_email", nullable = false, length = 190)
-    @BatchSize(size = 50) // opcional, reduce rondas cuando sí se necesita
+    @BatchSize(size = 50)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<String> sharedWithTherapists = new HashSet<>();

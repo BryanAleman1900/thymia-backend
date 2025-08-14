@@ -26,7 +26,7 @@ public class WellnessTipReceipt {
     private String title;
 
     @Lob
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false)
     private String content;
 
     @Column(length = 64)
