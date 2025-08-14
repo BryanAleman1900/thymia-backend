@@ -23,6 +23,6 @@ public class Audit {
     private String action;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "login_time", nullable = false, updatable = false)
     private LocalDateTime loginTime;
 }
