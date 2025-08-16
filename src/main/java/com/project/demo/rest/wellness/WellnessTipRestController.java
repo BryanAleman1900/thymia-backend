@@ -39,6 +39,3 @@ public class WellnessTipRestController {
         return ResponseEntity.ok(updated);
     }
 }
-
-
-
